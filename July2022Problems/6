@@ -1,0 +1,19 @@
+class Solution {
+public:
+
+    int fib(int n) {
+            vector <int> visited(n+1,0);
+        return helper(n,visited);
+        
+    }
+    int helper(int n,vector <int> &visited)
+    {
+            if(n == 0)
+                return 0;
+        if(n == 1)
+            return 1;
+        if(visited[n] != 0)
+            return visited[n];
+        return visited[n] = helper(n-1,visited) + helper(n-2,visited);
+    }
+};
