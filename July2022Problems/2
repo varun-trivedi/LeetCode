@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int maxArea(int h, int w, vector<int>& hc, vector<int>& vc) {
+        sort(hc.begin(),hc.end());
+        sort(vc.begin(),vc.end());
+        int maxr = INT_MIN,maxc = INT_MIN;
+        for(int i=0;i<hc.size();i++)
+        {
+            if(i == 0)
+            {
+                maxr = max(maxr , hc[i] - 0);
+            }
+            if(i == hc.size()-1)
+            {
+                maxr = max(maxr, h - hc[i]);
+            }
+            if(i > 0)
+            {
+                maxr = max(maxr, hc[i] - hc[i-1]);
+            }
+        }
+        for(int i=0;i<vc.size();i++)
+        {
+            if(i == 0)
+            {
+                maxc = max(maxc , vc[i] - 0);
+            }
+            if(i == vc.size()-1)
+            {
+                maxc = max(maxc, w - vc[i]);
+            }
+            if(i > 0)
+            {
+                maxc = max(maxc, vc[i] - vc[i-1]);
+            }
+        }
+        return ((int)((long)maxc*maxr % 1000000007));
+        
+    }
+};
