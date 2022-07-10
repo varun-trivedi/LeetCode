@@ -1,0 +1,29 @@
+//Min Cost Climbing Stairs
+class Solution {
+public:
+    int minCostClimbingStairs(vector<int>& cost) {
+        int n = cost.size();
+        vector<int> dp(n+1,-1);
+        int ans1 = helper(cost,-1,dp);
+        return ans1;
+        
+    }
+    int helper(vector <int> &cost,int pos, vector<int> &dp)
+    {
+        if(pos == -1)
+        {
+            
+            return min(helper(cost,1,dp),helper(cost,0,dp));
+        }
+            
+        if(pos >= cost.size())
+            return 0;
+        if(dp[pos] != -1)
+            return dp[pos];
+        
+
+        return dp[pos] = cost[pos] + min(helper(cost,pos+1,dp),helper(cost,pos+2,dp));    
+        
+        
+    }
+};
