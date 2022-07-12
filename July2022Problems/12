@@ -1,0 +1,41 @@
+https://leetcode.com/problems/matchsticks-to-square/
+class Solution {
+public:
+    bool makesquare(vector<int>& ms) {
+        int sum = 0;
+        for(int i=0;i<ms.size();i++)
+        {
+            sum = sum + ms[i];
+        }
+        vector <int> el(4,0);
+        sort(ms.begin(),ms.end(),greater<int>());
+        if(sum % 4 != 0)
+            return false;
+        sum = sum / 4;
+        if(dfs(ms,el,sum,0))
+            return true;
+        return false;
+        
+    }
+    bool dfs(vector <int> &ms,vector <int> &el,int target,int ind)
+    {
+        if(ind == ms.size())
+        {
+            if(el[0] == el[1] && el[1] == el[2] && el[2] == el[3])
+                return true;
+            else
+                return false;
+        }
+        for(int i = 0;i<4;i++)
+        {
+            if(el[i] + ms[ind] <= target)
+            {
+                el[i] += ms[ind];
+                if(dfs(ms,el,target,ind+1))
+                    return true;
+                el[i] -= ms[ind];
+            }
+        }
+        return false;
+    }
+};
