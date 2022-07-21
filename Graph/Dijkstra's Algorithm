@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+void bfs(int i,vector <pair<int,int>> adj[],vector <int> &distance)
+{
+    priority_queue <pair<int,int>,vector <pair<int,int>>,greater <pair<int,int>>> pq;
+    distance[i] = 0;
+    pq.push({distance[i],i});
+    while(pq.empty() == false)
+    {
+        int prevd = pq.top().first;
+        int prevn = pq.top().second;
+        pq.pop();
+        for(auto it: adj[prevn])
+        {
+            int curn = it.first;
+            int curw = it.second;
+            if(curw + prevd < distance[curn])
+            {
+                distance[curn] = prevd + curw;
+                pq.push({distance[curn],curn});
+            }
+        }
+    }
+
+}
+int main()
+{
+    int v,e;
+    cin>>v>>e;
+    vector <pair<int,int>> adj[v];
+    vector <int> distance(v,INT_MAX);
+    for(int i=0;i<e;i++)
+    {
+        int p,q,w;
+        cin>>p>>q>>w;
+        adj[p].push_back({q,w});
+        adj[q].push_back({p,w});
+    }
+    bfs(0,adj,distance);
+    cout<<"\n";
+    for(int i=0;i<distance.size();i++)
+    {
+        cout<<distance[i]<<"\n";
+    }
+
+    
+    
+}
