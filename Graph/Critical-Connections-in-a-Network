@@ -1,0 +1,46 @@
+//https://leetcode.com/problems/critical-connections-in-a-network/
+//finding bridges in graph
+class Solution {
+public:
+    vector <vector <int>> ans;
+    vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
+        vector <int> adj[n];
+        for(int i=0;i<connections.size();i++)
+        {
+            adj[connections[i][0]].push_back(connections[i][1]);
+            adj[connections[i][1]].push_back(connections[i][0]);
+        }
+        vector <int> visited(n,0);
+        vector <int> cur(n);
+        vector <int> mina(n);
+        int timer = 1;
+        for(int i=0;i<n;i++)
+        {
+            if(visited[i] == 0)
+                dfs(i,visited,cur,mina,timer,adj,-1);
+        }
+        return ans;
+        
+    }
+    void dfs(int i,vector <int> &visited,vector <int> &cur,vector <int> &mina,int &timer,vector <int> adj[],int par)
+    {
+        visited[i] = 1;
+        cur[i] = mina[i] = timer++;
+        for(auto it : adj[i])
+        {
+            if(par == it)
+                continue;
+            if(visited[it] == 0)
+            {
+                dfs(it,visited,cur,mina,timer,adj,i);
+                mina[i] = min(mina[it],mina[i]);
+                if(mina[it] > cur[i])
+                    ans.push_back({i,it});
+            }
+            else
+            {
+                mina[i] = min(mina[it],mina[i]);
+            }
+        }
+    }
+};
