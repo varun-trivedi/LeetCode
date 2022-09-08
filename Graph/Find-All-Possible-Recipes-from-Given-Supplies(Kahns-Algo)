@@ -1,0 +1,54 @@
+https://leetcode.com/problems/find-all-possible-recipes-from-given-supplies/
+class Solution {
+public:
+    vector<string> findAllRecipes(vector<string>& recipes, vector<vector<string>>& ingredients, vector<string>& supplies) {
+        //unordered_set<string> s;
+        unordered_map <string,int> sup;
+        unordered_map <string,vector<string>> adj;
+        unordered_map <string,int> deg;
+        for(int i = 0;i<supplies.size();i++)
+        {
+            //s.insert(supplies[i]);
+            sup[supplies[i]] = 1;
+        }
+        for(int i=0;i<recipes.size();i++)
+        {
+            deg[recipes[i]]= 0;
+        }
+        for(int i=0;i<recipes.size();i++)
+        {
+            for(int j=0;j<ingredients[i].size();j++)
+            {
+                if(sup[ingredients[i][j]] != 1)
+                {
+                    adj[ingredients[i][j]].push_back(recipes[i]);
+                    deg[recipes[i]]++;
+                }
+            }
+        }
+        
+        queue <string> q;
+        for(auto x : deg)
+        {
+            if(x.second == 0)
+                q.push(x.first);
+        }
+        vector <string> ans;
+        while(q.empty() == false)
+        {
+            string temp = q.front();
+            q.pop();
+            ans.push_back(temp);
+            for(string s : adj[temp])
+            {
+                deg[s]--;
+                if(deg[s] == 0)
+                    q.push(s);
+            }
+        }
+        return ans;
+        
+        
+        
+    }
+};
