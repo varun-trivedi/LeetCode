@@ -1,0 +1,44 @@
+//https://leetcode.com/problems/keys-and-rooms/description/
+class Solution {
+public:
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        int n = rooms.size();
+        vector <int> adj[n];
+        for(int i=0;i<rooms.size();i++)
+        {
+            for(int j = 0;j<rooms[i].size();j++)
+            {
+                adj[i].push_back(rooms[i][j]);
+            }
+        }
+        vector <int> visited(n,0);
+        queue <int> q;
+        bfs(0,adj,visited,q);
+        for(int i=0;i<n;i++)
+        {
+            if(visited[i] == 0)
+            return false;
+        }
+        return true;
+
+        
+    }
+    void bfs(int i,vector <int> adj[],vector <int> &visited,queue <int> &q)
+    {
+        visited[i] = 1;
+        q.push(i);
+        while(!q.empty())
+        {
+            int node = q.front();
+            q.pop();
+            for(auto x : adj[node])
+            {
+                if(visited[x] == 0)
+                {
+                    visited[x] = 1;
+                    q.push(x);
+                }
+            }
+        }
+    }
+};
